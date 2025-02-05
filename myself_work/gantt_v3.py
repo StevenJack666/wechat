@@ -111,8 +111,17 @@ df['color'] = df.apply(color, axis=1)
 from matplotlib.patches import Patch
 fig, ax = plt.subplots(1, figsize=(16,6))
 # bars
-ax.barh(df.Task, df.current_num, left=df.start_num, color=df.color)
-ax.barh(df.Task, df.days_start_to_end, left=df.start_num, color=df.color, alpha=0.5)
+"""
+x:柱状图中柱体标签值
+y:柱状图中柱体高度
+align:柱体对齐方式
+color:柱体颜色
+tick_label:刻度标签值
+alpha:柱体的透明度
+"""
+ax.barh(df.Task, width=df.current_num, left=df.start_num, color=df.color)
+
+ax.barh(df.Task, width=df.days_start_to_end, left=df.start_num, color=df.color, alpha=0.5)
 # texts
 for idx, row in df.iterrows():
     ax.text(row.end_num+0.1, idx,
@@ -121,6 +130,7 @@ for idx, row in df.iterrows():
 ##### LEGENDS #####
 c_dict = {'MKT':'#E64646', 'FIN':'#E69646', 'ENG':'#34D05C', 'PROD':'#34D0C3', 'IT':'#3475D0'}
 legend_elements = [Patch(facecolor=c_dict[i], label=i)  for i in c_dict]
+
 plt.legend(handles=legend_elements)
 ##### TICKS #####
 xticks = np.arange(0, df.end_num.max()+1, 3)
